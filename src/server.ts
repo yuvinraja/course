@@ -1,7 +1,10 @@
 import express from "express";
 import router from "./router";
+import morgan from "morgan";
 
 const app = express();
+
+app.use(morgan("dev")); // Logging middleware
 
 app.get("/", (req, res) => {
     console.log("Welcome screen");
