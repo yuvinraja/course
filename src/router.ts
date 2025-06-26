@@ -4,7 +4,11 @@ import { Router } from 'express';
 const router = Router();
 
 // Product Routes
-router.get('/product', () => {});           // Get all products
+router.get('/product', (req, res) => {
+    // testing
+    console.log("Fetching all products");
+    res.status(200).json({ message: "All products fetched successfully" });
+});           // Get all products
 router.get('/product/:id', () => {});       // Get a single product by ID
 router.put('/product/:id', () => {});       // Update a product by ID 
 router.post('/product', () => {});          // Create a new product
