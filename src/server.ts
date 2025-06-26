@@ -1,10 +1,16 @@
 import express from "express";
+import router from "./router";
 
 const app = express();
 
 app.get("/", (req, res) => {
-    res.status(200);
-    res.json({ message: "hello yuvin" });
-})
+    console.log("Welcome screen");
+    res.status(200).send("Welcome to the ExpressJS API");
+});
+
+app.use("/api", router); 
+// Use the router for all API routes
+// “For any URL that starts with /api, pass the request to this router.”
+// Complete router: GET /api/product, GET /api/update, etc.
 
 export default app;
