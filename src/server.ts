@@ -11,9 +11,9 @@ app.use(express.json()); // Middleware to parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded request bodies
 
 app.get("/", (req, res, next) => {
-  setTimeout(() => {
-    next(new Error("Simulated error for testing error handling"));
-  }, 1000); // Simulate a delay of 1 second
+    res.send("Welcome to the ExpressJS course!!!");
+    console.log("Welcome screen");
+    next(); // Call the next middleware or route handler
 });
 
 app.use("/api", protect, router);
