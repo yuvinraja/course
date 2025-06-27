@@ -4,11 +4,11 @@ import { Request, Response, NextFunction } from "express";
 
 // Extend the Request interface to include the user property
 declare global {
-    namespace Express {
-        interface Request {
-            user?: any;
-        }
+  namespace Express {
+    interface Request {
+      user?: any;
     }
+  }
 }
 
 export const createJWT = (user: any) => {
@@ -47,10 +47,13 @@ export const protect = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export const comparePasswords = async (password: string, hashedPassword: string) => {
+export const comparePasswords = async (
+  password: string,
+  hashedPassword: string
+) => {
   return bcrypt.compare(password, hashedPassword);
-}
+};
 
 export const hashPassword = async (password: string) => {
   return bcrypt.hash(password, 10);
-}
+};

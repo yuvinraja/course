@@ -25,8 +25,14 @@ app.post("/user", createUser); // Route for creating a new user
 app.post("/signin", signIn); // Route for signing in an existing user
 
 app.use((err, req, res, next) => {
-  console.error(err.stack); // Log the error stack trace
-  res.status(500).send("Something broke!"); // Send a 500 Internal Server Error response
+  if (err.type === "auth") {
+    res.status(401).json({ error: "Unauthorized access" });
+  } else if (err.type === "input") {
+    res.status(400).json({ error: "Invalid input" });
+  } else {
+    console.error(err.stack); // Log the error stack trace
+    res.status(500).send("Something broke! That one is on us!"); // Send a 500 Internal Server Error response
+  }
 });
 
 export default app;

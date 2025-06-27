@@ -5,9 +5,8 @@ export const handleInputError = (req, res, next) => {
 
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
-  }
-  else {
+  } else {
     console.log("No validation errors found");
     next(); // Proceed to the next middleware or route handler
   }
-}
+};
