@@ -3,6 +3,7 @@ import { Router } from "express";
 import { body, check, oneOf, validationResult } from "express-validator";
 import { handleInputError } from "./modules/middleware";
 import { createProduct, deleteProduct, getOneProduct, getProducts, updateProduct } from "./handlers/product";
+import { createUpdate, deleteUpdate, getOneUpdate, getUpdates, updateUpdate } from "./handlers/update";
 
 const router = Router();
 
@@ -32,13 +33,9 @@ router.delete("/product/:id", deleteProduct);
 //
 // Update Routes
 //
-router.get("/update", (req, res) => {
-  // Fetch all updates
-});
+router.get("/update", getUpdates);
 
-router.get("/update/:id", (req, res) => {
-  // Fetch a single update by ID
-});
+router.get("/update/:id", getOneUpdate);
 
 router.put(
   "/update/:id",
@@ -52,9 +49,7 @@ router.put(
     ]),
     body("version").optional(),
   ],
-  (req, res) => {
-    // Update a specific update by ID
-  }
+  updateUpdate
 );
 
 router.post(
@@ -64,14 +59,10 @@ router.post(
     body("body").optional(),
     body("productId").exists().isString(),
   ],
-  (req, res) => {
-    // Create a new update
-  }
+  createUpdate
 );
 
-router.delete("/update/:id", (req, res) => {
-  // Delete a specific update by ID
-});
+router.delete("/update/:id", deleteUpdate);
 
 //
 // Update Point Routes

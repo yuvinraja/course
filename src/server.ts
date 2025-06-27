@@ -1,37 +1,17 @@
 import express from "express";
 import router from "./router";
 import morgan from "morgan";
-import cors from "cors";
 import { protect } from "./modules/auth";
 import { createUser, signIn } from "./handlers/user";
-
-// Extend the Request interface to include the shhh_secret property
-declare global {
-    namespace Express {
-        interface Request {
-            shhh_secret?: string;
-        }
-    }
-}
 
 const app = express();
 
 app.use(morgan("dev")); // Logging middleware
 app.use(express.json()); // Middleware to parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded request bodies
-app.use(cors());
-
-// Custom middleware to add a secret to the request object
-app.use((req, res, next) => {
-    req.shhh_secret = "This is a secret"; // Add a secret to the request object
-    console.log("Middleware executed");
-    next(); 
-});
 
 app.get("/", (req, res) => {
-    console.log("Welcome screen");
-    res.status(200);
-    res.json({message: "Welcome to the API!", secret: req.shhh_secret});
+    throw new Error("This is a test error"); // Intentionally throw an error to test error handling
 });
 
 app.use("/api", protect, router); 
@@ -41,5 +21,10 @@ app.use("/api", protect, router);
 
 app.post('/user', createUser); // Route for creating a new user
 app.post('/signin', signIn); // Route for signing in an existing user
+
+app.use((err, req, res, next) => {
+    console.error(err.stack); // Log the error stack trace
+    res.status(500).send('Something broke!'); // Send a 500 Internal Server Error response
+});
 
 export default app;
