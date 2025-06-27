@@ -3,6 +3,7 @@ import router from "./router";
 import morgan from "morgan";
 import cors from "cors";
 import { protect } from "./modules/auth";
+import { createUser, signIn } from "./handlers/user";
 
 // Extend the Request interface to include the shhh_secret property
 declare global {
@@ -30,12 +31,15 @@ app.use((req, res, next) => {
 app.get("/", (req, res) => {
     console.log("Welcome screen");
     res.status(200);
-    res.json({message: req.shhh_secret})
+    res.json({message: "Welcome to the API!", secret: req.shhh_secret});
 });
 
 app.use("/api", protect, router); 
 // Use the router for all API routes
 // “For any URL that starts with /api, pass the request to this router.”
 // Complete router: GET /api/product, GET /api/update, etc.
+
+app.post('/user', createUser); // Route for creating a new user
+app.post('/signin', signIn); // Route for signing in an existing user
 
 export default app;
