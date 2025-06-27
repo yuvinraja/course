@@ -10,21 +10,23 @@ app.use(morgan("dev")); // Logging middleware
 app.use(express.json()); // Middleware to parse JSON request bodies
 app.use(express.urlencoded({ extended: true })); // Middleware to parse URL-encoded request bodies
 
-app.get("/", (req, res) => {
-    throw new Error("This is a test error"); // Intentionally throw an error to test error handling
+app.get("/", (req, res, next) => {
+  setTimeout(() => {
+    next(new Error("Simulated error for testing error handling"));
+  }, 1000); // Simulate a delay of 1 second
 });
 
-app.use("/api", protect, router); 
+app.use("/api", protect, router);
 // Use the router for all API routes
 // “For any URL that starts with /api, pass the request to this router.”
 // Complete router: GET /api/product, GET /api/update, etc.
 
-app.post('/user', createUser); // Route for creating a new user
-app.post('/signin', signIn); // Route for signing in an existing user
+app.post("/user", createUser); // Route for creating a new user
+app.post("/signin", signIn); // Route for signing in an existing user
 
 app.use((err, req, res, next) => {
-    console.error(err.stack); // Log the error stack trace
-    res.status(500).send('Something broke!'); // Send a 500 Internal Server Error response
+  console.error(err.stack); // Log the error stack trace
+  res.status(500).send("Something broke!"); // Send a 500 Internal Server Error response
 });
 
 export default app;
