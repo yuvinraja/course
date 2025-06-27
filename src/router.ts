@@ -2,16 +2,14 @@
 import { Router } from "express";
 import { body, check, oneOf, validationResult } from "express-validator";
 import { handleInputError } from "./modules/middleware";
+import { getProducts } from "./handlers/product";
 
 const router = Router();
 
 //
 // Product Routes
 //
-router.get("/product", (req, res) => {
-  // Fetch all products
-  res.status(200).json({ message: "Get all products" });
-});
+router.get("/product", getProducts);
 
 router.get("/product/:id", (req, res) => {
   // Fetch a single product by ID

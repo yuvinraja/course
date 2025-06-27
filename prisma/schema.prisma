@@ -19,7 +19,7 @@ model User {
   createdAt DateTime  @default(now())
   username  String    @unique
   password  String    @db.VarChar(255)
-  Product   Product[]
+  products  Product[]
 }
 
 model Product {
@@ -28,14 +28,13 @@ model Product {
   name        String
   belongsTo   User     @relation(fields: [belongsToId], references: [id])
   belongsToId String
-  Update      Update[]
+  updates     Update[]
 }
 
 enum UPDATE_STATUS {
   IN_PROGRESS
-  LIVE
+  SHIPPED
   DEPRECATED
-  ARCHIVED
 }
 
 model Update {
@@ -49,9 +48,9 @@ model Update {
   version String?
   asset   String
 
-  productId   String
-  product     Product       @relation(fields: [productId], references: [id])
-  UpdatePoint UpdatePoint[]
+  productId    String
+  product      Product       @relation(fields: [productId], references: [id])
+  updatepoints UpdatePoint[]
 }
 
 model UpdatePoint {
